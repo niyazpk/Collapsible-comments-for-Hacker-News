@@ -18,7 +18,7 @@ javascript:(function() {
         };
         head.appendChild(script);
     }
-    getScript('http://code.jquery.com/jquery-latest.min.js',
+    getScript('http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js',
     function() {
         if (typeof jQuery != 'undefined') {
             if (otherlib) {
