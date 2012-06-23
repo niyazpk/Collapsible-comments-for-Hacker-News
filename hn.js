@@ -1,8 +1,4 @@
 javascript:(function() {
-    var otherlib = false;
-    if (typeof jQuery == 'undefined' && typeof $ == 'function') {
-        otherlib = true;
-    }
     function getScript(url, success) {
         var script = document.createElement('script');
         script.src = url;
@@ -18,66 +14,62 @@ javascript:(function() {
         };
         head.appendChild(script);
     }
-    getScript('http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js',
+    getScript('//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js',
     function() {
-        if (typeof jQuery != 'undefined') {
-            if (otherlib) {
-                $jq = jQuery.noConflict();
-            }
-            if (!jQuery('body').hasClass('collapsible-comments')) {
-                jQuery('body').addClass('collapsible-comments');
-                var span_html = '<span style=\'cursor:pointer;margin-left:10px;\' class=\'expand-handle\'>[-]</span>';
+        if (typeof jQuery !== 'undefined') {
+            if (!$('body').hasClass('collapsible-comments')) {
+                
+                $('body').addClass('collapsible-comments');
+                var span_html = '<span style="cursor:pointer;margin-left:10px;" class="expand-handle">[-]</span>';
+                
                 if (window.location.href.indexOf('item?id=') != -1) {
-                    jQuery('center > table > tbody > tr:eq(2) > td > table:eq(1) span.comhead').append(span_html);
+                    $('center > table > tbody > tr:eq(2) > td > table:eq(1) span.comhead').append(span_html);
                 } else if (window.location.href.indexOf('threads?id=') != -1) {
-                    jQuery('center > table > tbody > tr > td > table span.comhead').append(span_html);
+                    $('center > table > tbody > tr > td > table span.comhead').append(span_html);
                 }
-                jQuery('.expand-handle').live('click',
+
+                $('.expand-handle').live('click',
                 function() {
-                    current_level_width = jQuery(this).parents('tr').eq(0).find('td > img').attr('width');
-                    jQuery(this).parents('table').eq(0).parents('tr').eq(0).nextAll().each(function(index, el) {
-                        if (jQuery('tbody > tr > td > img', this).attr('width') > current_level_width) {
-                            if (jQuery('tbody > tr > td > img', this).attr('width') <= inner_level_width) {
-                                inner_level_width = 1000;
-                                jQuery(this).hide();
-                            }
-                            if (inner_level_width == 1000 && jQuery('.comment', this).css('display') == 'none') {
-                                inner_level_width = jQuery('tbody > tr > td > img', this).attr('width');
-                            }
+
+                    current_level_width = parseInt($(this).closest('tr').find('td:eq(0) > img').attr('width'), 10);
+
+                    $(this).closest('table').closest('tr').nextAll().each(function(index, el) {
+                        var elWidth = parseInt($('tbody > tr > td > img', this).attr('width'), 10);
+                        console.log(elWidth > current_level_width, typeof elWidth);
+                        if (elWidth > current_level_width) {
+                            $(this).hide();
                         } else {
                             return false;
                         }
                     });
-                    inner_level_width = 1000;
-                    jQuery(this).text('[+]').addClass('expand-handle-collapsed').removeClass('expand-handle');
-                    jQuery(this).closest('div').nextAll().hide();
-                    jQuery(this).closest('div').parent().prev().hide();
-                    jQuery(this).closest('div').css({
+
+                    $(this).text('[+]').addClass('expand-handle-collapsed').removeClass('expand-handle');
+                    $(this).closest('div').nextAll().hide();
+                    $(this).closest('div').parent().prev().hide();
+                    $(this).closest('div').css({
                         'margin-left': '18px',
                         'margin-bottom': '5px'
                     });
                 });
-                jQuery('.expand-handle-collapsed').live('click',
+
+                $('.expand-handle-collapsed').live('click',
                 function() {
-                    current_level_width = jQuery(this).parents('tr').eq(0).find('td > img').attr('width');
-                    jQuery(this).parents('table').eq(0).parents('tr').eq(0).nextAll().each(function(index, el) {
-                        if (jQuery('tbody > tr > td > img', this).attr('width') > current_level_width) {
-                            if (jQuery('tbody > tr > td > img', this).attr('width') <= inner_level_width) {
-                                inner_level_width = 1000;
-                                jQuery(this).show();
-                            }
-                            if (inner_level_width == 1000 && jQuery('.comment', this).css('display') == 'none') {
-                                inner_level_width = jQuery('tbody > tr > td > img', this).attr('width');
-                            }
+
+                    current_level_width = parseInt($(this).closest('tr').find('td > img').attr('width'), 10);
+
+                    $(this).closest('table').closest('tr').nextAll().each(function(index, el) {
+                        var elWidth = parseInt($('tbody > tr > td > img', this).attr('width'), 10);
+                        if (elWidth > current_level_width) {
+                            $(this).show();
                         } else {
                             return false;
                         }
                     });
-                    inner_level_width = 1000;
-                    jQuery(this).text('[-]').addClass('expand-handle').removeClass('expand-handle-collapsed');
-                    jQuery(this).closest('div').nextAll().show();
-                    jQuery(this).closest('div').parent().prev().show();
-                    jQuery(this).closest('div').css({
+
+                    $(this).text('[-]').addClass('expand-handle').removeClass('expand-handle-collapsed');
+                    $(this).closest('div').nextAll().show();
+                    $(this).closest('div').parent().prev().show();
+                    $(this).closest('div').css({
                         'margin-left': '0',
                         'margin-bottom': '-10px'
                     });
@@ -86,5 +78,5 @@ javascript:(function() {
         }
     });
 })();
+
 var current_level_width = 0;
-var inner_level_width = 1000;
