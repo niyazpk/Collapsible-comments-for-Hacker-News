@@ -37,12 +37,19 @@ javascript:(function() {
                         var elWidth = parseInt($('tbody > tr > td > img', this).attr('width'), 10);
                         console.log(elWidth > current_level_width, typeof elWidth);
                         if (elWidth > current_level_width) {
-                            $(this).hide();
+                            if (elWidth <= inner_level_width) {
+                                inner_level_width = 1000;
+                                $(this).hide();
+                            }
+                            if (inner_level_width == 1000 && $('.comment', this).css('display') == 'none') {
+                                inner_level_width = elWidth;
+                            }
                         } else {
                             return false;
                         }
                     });
 
+                    inner_level_width = 1000;
                     $(this).text('[+]').addClass('expand-handle-collapsed').removeClass('expand-handle');
                     $(this).closest('div').nextAll().hide();
                     $(this).closest('div').parent().prev().hide();
@@ -60,12 +67,19 @@ javascript:(function() {
                     $(this).closest('table').closest('tr').nextAll().each(function(index, el) {
                         var elWidth = parseInt($('tbody > tr > td > img', this).attr('width'), 10);
                         if (elWidth > current_level_width) {
-                            $(this).show();
+                            if (elWidth <= inner_level_width) {
+                                inner_level_width = 1000;
+                                $(this).show();
+                            }
+                            if (inner_level_width == 1000 && $('.comment', this).css('display') == 'none') {
+                                inner_level_width = elWidth;
+                            }
                         } else {
                             return false;
                         }
                     });
 
+                    inner_level_width = 1000;
                     $(this).text('[-]').addClass('expand-handle').removeClass('expand-handle-collapsed');
                     $(this).closest('div').nextAll().show();
                     $(this).closest('div').parent().prev().show();
@@ -77,6 +91,10 @@ javascript:(function() {
             }
         }
     });
+
+    var current_level_width = 0;
+    var inner_level_width = 1000;
+
 })();
 
-var current_level_width = 0;
+
