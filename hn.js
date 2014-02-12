@@ -20,20 +20,19 @@ javascript:(function() {
             if (!$('body').hasClass('collapsible-comments')) {
                 
                 $('body').addClass('collapsible-comments');
-                var span_html = '<span style=\'cursor:pointer;margin-left:10px;\' class=\'expand-handle\'>[-]</span>';
+                var span_html = '<span style="cursor:pointer;margin-right:10px;" class="expand-handle">[-]</span>';
                 
                 if (window.location.href.indexOf('item?id=') != -1) {
-					if ($('center > table > tbody > tr').length > 4) {
-			        	$('center > table > tbody > tr:eq(3) > td > table:eq(1) span.comhead').append(span_html);
-					} else {
-						$('center > table > tbody > tr:eq(2) > td > table:eq(1) span.comhead').append(span_html);
-					}
+                    if ($('center > table > tbody > tr').length > 4) {
+                        $('center > table > tbody > tr:eq(3) > td > table:eq(1) span.comhead').prepend(span_html);
+                    } else {
+                        $('center > table > tbody > tr:eq(2) > td > table:eq(1) span.comhead').prepend(span_html);
+                    }
                 } else if (window.location.href.indexOf('threads?id=') != -1) {
-                    $('center > table > tbody > tr > td > table span.comhead').append(span_html);
+                    $('center > table > tbody > tr > td > table span.comhead').prepend(span_html);
                 }
 
-                $('.expand-handle').live('click',
-                function() {
+                $('.expand-handle').live('click', function() {
 
                     current_level_width = parseInt($(this).closest('tr').find('td:eq(0) > img').attr('width'), 10);
 
@@ -63,8 +62,7 @@ javascript:(function() {
                     });
                 });
 
-                $('.expand-handle-collapsed').live('click',
-                function() {
+                $('.expand-handle-collapsed').live('click', function() {
 
                     current_level_width = parseInt($(this).closest('tr').find('td > img').attr('width'), 10);
 
@@ -100,5 +98,4 @@ javascript:(function() {
     var inner_level_width = 1000;
 
 })();
-
 
